@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#fce4ec" />
+    <meta name="description" content="A cute cooking game for kids — cook pizza, burgers, cake and more with an adorable capybara chef!" />
+    <meta name="application-name" content="Capybara Cooking" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />
+    <!-- iPad, iPad mini, iPad Air (landscape) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 768px) and (orientation: landscape)" href="/icon-512.png" />
+    <!-- iPad Pro 11" (landscape) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 1194px) and (device-height: 834px) and (orientation: landscape)" href="/icon-512.png" />
+    <!-- iPad Pro 12.9" (landscape) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 1366px) and (device-height: 1024px) and (orientation: landscape)" href="/icon-512.png" />
+    <!-- iPhone landscape fallback -->
+    <link rel="apple-touch-startup-image" media="(orientation: landscape)" href="/icon-512.png" />
+    <title>Capybara Cooking</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #fce4ec;
+        touch-action: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      #game-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      canvas {
+        display: block;
+        touch-action: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-container"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

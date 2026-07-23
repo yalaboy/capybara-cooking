@@ -1,0 +1,71 @@
+{
+  "id": "pizza",
+  "name": "Pizza",
+  "icon": "pizza-icon",
+  "background": "kitchen-day",
+  "steps": [
+    {
+      "type": "sauce",
+      "label": "Pick a sauce!",
+      "speech": "Put some sauce on the pizza!",
+      "visual": {
+        "item": "Dough",
+        "itemColor": 16188196,
+        "to": { "x": 512, "y": 420 }
+      },
+      "feedback": {
+        "sound": "splat",
+        "particles": "sauce-splat",
+        "emotion": "happy"
+      }
+    },
+    {
+      "type": "topping",
+      "label": "Add your toppings!",
+      "speech": "Let's put on some toppings!",
+      "visual": {
+        "item": "Pizza",
+        "itemColor": 16776222,
+        "taps": 8
+      },
+      "feedback": {
+        "sound": "sprinkle",
+        "particles": "cheese-shred",
+        "emotion": "happy"
+      }
+    },
+    {
+      "type": "bake",
+      "label": "Bake the pizza!",
+      "speech": "Time to bake the pizza!",
+      "visual": {
+        "item": "Pizza",
+        "itemColor": 16776222,
+        "taps": 30
+      },
+      "feedback": {
+        "sound": "sizzle",
+        "particles": "flame-orange",
+        "emotion": "spicy"
+      }
+    },
+    {
+      "type": "eat",
+      "label": "Eat the pizza!",
+      "speech": "Yummy! Let's eat the pizza!",
+      "visual": {
+        "item": "Pizza",
+        "itemColor": 16776222
+      },
+      "feedback": {
+        "sound": "pop",
+        "emotion": "excited"
+      }
+    }
+  ],
+  "celebration": {
+    "emotion": "excited",
+    "particles": "confetti",
+    "stars": 3
+  }
+}
