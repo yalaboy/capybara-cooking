@@ -28,7 +28,7 @@ export function createNextButton(scene: Phaser.Scene, step: BaseStep, onClick: (
   nextLabel.setOrigin(0.5);
   container.add(nextLabel);
 
-  container.setSize(76, 76);
+  container.setSize(120, 120);
   container.setInteractive({ useHandCursor: true });
   container.on('pointerdown', onClick);
 
