@@ -56,13 +56,11 @@ export abstract class BaseStep {
   protected playNextSpeech(): void {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
-    setTimeout(() => {
-      const utterance = new SpeechSynthesisUtterance('It is ready, let\'s move on');
-      utterance.lang = 'en-US';
-      utterance.rate = 1.0;
-      utterance.pitch = 1.2;
-      window.speechSynthesis.speak(utterance);
-    }, 200);
+    const utterance = new SpeechSynthesisUtterance('It is ready, let\'s move on');
+    utterance.lang = 'en-US';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.2;
+    window.speechSynthesis.speak(utterance);
   }
 
   protected createLabel(
