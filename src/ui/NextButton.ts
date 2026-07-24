@@ -4,7 +4,7 @@ import type { BaseStep } from '../steps/BaseStep';
 export function createNextButton(scene: Phaser.Scene, step: BaseStep, onClick: () => void): Phaser.GameObjects.Container {
   const { width, height } = scene.scale;
 
-  const container = scene.add.container(width - 130, height - 110);
+  const container = scene.add.container(width - 160, height - 140);
   container.setDepth(6);
 
   // Glow ring
@@ -19,16 +19,6 @@ export function createNextButton(scene: Phaser.Scene, step: BaseStep, onClick: (
   bg.fillStyle(0xffffff, 0.9);
   bg.fillTriangle(-10, -10, -10, 10, 10, 0);
   container.add(bg);
-
-  // Finger pointer
-  const finger = scene.add.graphics();
-  finger.fillStyle(0xffe0b2, 1);
-  finger.fillRoundedRect(28, -8, 22, 12, 4);
-  finger.fillRoundedRect(44, -10, 10, 16, 4);
-  finger.fillRoundedRect(46, -14, 8, 8, 4);
-  finger.fillStyle(0xffcc80, 1);
-  finger.fillRoundedRect(30, -6, 18, 8, 3);
-  container.add(finger);
 
   container.setSize(76, 76);
   container.setInteractive({ useHandCursor: true });
