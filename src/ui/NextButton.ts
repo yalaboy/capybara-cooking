@@ -20,8 +20,8 @@ export function createNextButton(scene: Phaser.Scene, step: BaseStep, onClick: (
   bg.fillTriangle(-10, -10, -10, 10, 10, 0);
   container.add(bg);
 
-  const nextLabel = scene.add.text(0, 52, 'NEXT', {
-    fontSize: '14px',
+  const nextLabel = scene.add.text(0, 58, 'NEXT', {
+    fontSize: '20px',
     color: '#4caf50',
     fontStyle: 'bold',
   });
@@ -46,7 +46,7 @@ export function createNextButton(scene: Phaser.Scene, step: BaseStep, onClick: (
 
   // Shake
   scene.tweens.add({
-    targets: container,
+    targets: [glow, bg],
     angle: { from: -8, to: 8 },
     duration: 100,
     yoyo: true,
