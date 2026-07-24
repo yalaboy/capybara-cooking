@@ -256,6 +256,26 @@ export class SauceStep extends BaseStep {
       ease: 'Back.easeOut',
     });
 
+    // Shake selected
+    scene.tweens.add({
+      targets: container,
+      angle: { from: -5, to: 5 },
+      duration: 80,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
+
+    // Glow selected highlight
+    scene.tweens.add({
+      targets: highlight,
+      alpha: { from: 0.6, to: 1 },
+      duration: 400,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
+
     scene.events.emit('capybara-emotion', 'idle');
     scene.time.delayedCall(100, () => {
       scene.events.emit('capybara-emotion', info.emotion);

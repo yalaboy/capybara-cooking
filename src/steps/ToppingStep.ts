@@ -166,6 +166,26 @@ export class ToppingStep extends BaseStep {
       ease: 'Back.easeOut',
     });
 
+    // Shake selected
+    scene.tweens.add({
+      targets: container,
+      angle: { from: -5, to: 5 },
+      duration: 80,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
+
+    // Glow selected highlight
+    scene.tweens.add({
+      targets: highlight,
+      alpha: { from: 0.6, to: 1 },
+      duration: 400,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
+
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const text = info.liked ? `${info.label} yummy` : `${info.label} nono`;
