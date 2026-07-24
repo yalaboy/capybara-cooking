@@ -53,7 +53,7 @@ export const TOPPINGS: ToppingInfo[] = [
     },
   },
   {
-    id: 'pepperoni', color: 0xbf360c, liked: false, label: 'pepperoni',
+    id: 'ham', color: 0xbf360c, liked: false, label: 'ham',
     drawIcon: (scene, x, y) => {
       const c = scene.add.container(x, y);
       const g = scene.add.graphics();

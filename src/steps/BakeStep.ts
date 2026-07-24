@@ -154,24 +154,24 @@ export class BakeStep extends BaseStep {
 
     const glow = scene.add.graphics();
     glow.fillStyle(0xe53935, 0.3);
-    glow.fillCircle(0, 0, 32);
+    glow.fillCircle(0, 0, 48);
     this.startButton.add(glow);
 
     const bg = scene.add.graphics();
     bg.fillStyle(0xe53935, 1);
-    bg.fillCircle(0, 0, 24);
+    bg.fillCircle(0, 0, 36);
     bg.fillStyle(0xffffff, 0.3);
     bg.fillCircle(-4, -4, 8);
     this.startButton.add(bg);
 
     const text = scene.add.text(0, 0, 'Start', {
-      fontSize: '14px',
+      fontSize: '21px',
       color: '#ffffff',
     });
     text.setOrigin(0.5);
     this.startButton.add(text);
 
-    this.startButton.setSize(56, 56);
+    this.startButton.setSize(84, 84);
     this.startButton.setInteractive({ useHandCursor: true });
     this.startButton.on('pointerdown', () => this.onStartBake());
 

@@ -9,7 +9,7 @@ import { Capybara } from '../objects/Capybara';
 
 const BITE_RADIUS = 35;
 const BOARD_COLOR = 0xc19a6b;
-const DEATH_BITE = 7;
+const DEATH_BITE = 11;
 
 function speak(text: string): void {
   if (!('speechSynthesis' in window)) return;
@@ -150,7 +150,10 @@ export class EatStep extends BaseStep {
   }
 
   private getSpeechText(): string {
-    if (this.biteCount >= 4) {
+    if (this.biteCount == DEATH_BITE - 1) {
+      return 'One more bite, I am going to die!';
+    }
+    if (this.biteCount >= 6) {
       return this.biteCount % 2 === 0 ? 'I\'m full!' : 'No more!';
     }
     return this.biteCount % 2 === 0 ? 'Yummy!' : 'So good!';
@@ -171,13 +174,13 @@ export class EatStep extends BaseStep {
     }
 
     // Update phase
-    if (this.biteCount >= 4) {
+    if (this.biteCount >= 6) {
       this.setPhase('danger');
       this.scene.events.emit('capybara-emotion', 'spicy');
     }
 
-    // Redden face progressively (max at bite 7)
-    const redAlpha = Math.min(0.8, this.biteCount * 0.12);
+    // Redden face progressively (max at bite 10)
+    const redAlpha = Math.min(1.0, this.biteCount * 0.1);
     this.scene.tweens.add({
       targets: this.faceRedness,
       alpha: redAlpha,
@@ -218,7 +221,7 @@ export class EatStep extends BaseStep {
       duration: 300,
       ease: 'Back.easeOut',
       onComplete: () => {
-        if (this.biteCount < 4) {
+        if (this.biteCount < 6) {
           this.scene.events.emit('capybara-emotion', 'excited');
         } else {
           this.scene.events.emit('capybara-emotion', 'spicy');
@@ -248,7 +251,7 @@ export class EatStep extends BaseStep {
         // After eating, jump back
         this.scene.time.delayedCall(1000, () => {
           chewEvent.remove();
-          if (this.biteCount < 4) {
+          if (this.biteCount < 6) {
             this.scene.events.emit('capybara-emotion', 'drool');
           } else {
             this.scene.events.emit('capybara-emotion', 'spicy');
