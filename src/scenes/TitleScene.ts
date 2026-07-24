@@ -4,6 +4,7 @@ import { Button } from '../ui/Button';
 import { BackgroundGraphics } from '../assets/visual/BackgroundGraphics';
 import { saveManager } from '../managers/SaveManager';
 import { audioManager } from '../managers/AudioManager';
+import { speak } from '../utils/Speech';
 
 const FOOD_FLOATS = [
   { icon: '🍕', x: 0.12, y: 0.6, delay: 0 },
@@ -47,12 +48,7 @@ export class TitleScene extends Phaser.Scene {
   private playTitleSpeech(): void {
     if (!('speechSynthesis' in window)) return;
     const phrases = ['Capybara Cooking', 'Lets go Joonsoo'];
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(phrases[Math.floor(Math.random() * phrases.length)]);
-    utterance.lang = 'en-US';
-    utterance.rate = 1.0;
-    utterance.pitch = 1.2;
-    window.speechSynthesis.speak(utterance);
+    speak(phrases[Math.floor(Math.random() * phrases.length)]);
   }
 
   private createBackground(w: number, h: number): void {
@@ -131,13 +127,7 @@ export class TitleScene extends Phaser.Scene {
       fontSize: '36px',
       radius: 20,
       onPress: () => {
-        if ('speechSynthesis' in window) {
-          const utterance = new SpeechSynthesisUtterance('yay');
-          utterance.lang = 'en-US';
-          utterance.rate = 1.2;
-          utterance.pitch = 1.2;
-          window.speechSynthesis.speak(utterance);
-        }
+        speak('yay', 1.2, 1.2);
         this.cameras.main.fadeOut(300, 252, 228, 300);
         this.time.delayedCall(500, () => {
           this.scene.start('PizzaScene');

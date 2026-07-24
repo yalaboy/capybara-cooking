@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { BaseRecipeScene } from './BaseRecipeScene';
 import { FoodGraphics } from '../assets/visual/FoodGraphics';
 import { audioManager } from '../managers/AudioManager';
+import { speak } from '../utils/Speech';
 import type { RecipeConfig } from '../types/recipe';
 import pizzaData from '../data/recipes/pizza.json';
 
@@ -81,15 +82,8 @@ export class PizzaScene extends BaseRecipeScene {
     container.setInteractive({ useHandCursor: true });
 
     container.on('pointerdown', () => {
-      if ('speechSynthesis' in window) {
-        const phrases = ['Hello Joonsoo', 'Joonsoo Hi'];
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(phrases[Math.floor(Math.random() * phrases.length)]);
-        u.lang = 'en-US';
-        u.rate = 1.0;
-        u.pitch = 1.3;
-        window.speechSynthesis.speak(u);
-      }
+      const phrases = ['Hello Joonsoo', 'Joonsoo Hi'];
+      speak(phrases[Math.floor(Math.random() * phrases.length)]);
 
       audioManager.playSfx('fanfare');
 

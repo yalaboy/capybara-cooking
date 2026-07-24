@@ -6,6 +6,7 @@ import { TOPPING_MAP } from '../data/ToppingData';
 import { createNextButton } from '../ui/NextButton';
 import { FoodGraphics } from '../assets/visual/FoodGraphics';
 import { Capybara } from '../objects/Capybara';
+import { speak, stopSpeech } from '../utils/Speech';
 
 export class BakeStep extends BaseStep {
   private anims!: AnimationSystem;
@@ -24,6 +25,8 @@ export class BakeStep extends BaseStep {
   private timerEvent?: Phaser.Time.TimerEvent;
   private humOsc?: OscillatorNode;
   private humGain?: GainNode;
+  private humOsc2?: OscillatorNode;
+  private humGain2?: GainNode;
   private speechLoop?: Phaser.Time.TimerEvent;
   private bounceLoop?: Phaser.Time.TimerEvent;
 
@@ -354,26 +357,19 @@ export class BakeStep extends BaseStep {
     this.scene.events.emit('capybara-emotion', 'excited');
 
     // Repeating speech loop
-    if ('speechSynthesis' in window) {
-      const phrases = ['It is ready!', 'Let\'s eat pizza!'];
-      let phraseIdx = 0;
-      const speakNext = () => {
-        if (this.completed) return;
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(phrases[phraseIdx]);
-        utterance.lang = 'en-US';
-        utterance.rate = 1.0;
-        utterance.pitch = 1.3;
-        window.speechSynthesis.speak(utterance);
-        phraseIdx = (phraseIdx + 1) % phrases.length;
-      };
-      speakNext();
-      this.speechLoop = this.scene.time.addEvent({
+    const phrases = ['It is ready!', 'Let\'s eat pizza!'];
+    let phraseIdx = 0;
+    const speakNext = () => {
+      if (this.completed) return;
+      speak(phrases[phraseIdx]);
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+    };
+    speakNext();
+    this.speechLoop = this.scene.time.addEvent({
         delay: 2500,
         loop: true,
         callback: speakNext,
       });
-    }
 
     // Repeating capybara bounce to random positions
     const baseScene = this.scene as unknown as { capybara: Capybara };
@@ -435,8 +431,8 @@ export class BakeStep extends BaseStep {
 
     this.humOsc = osc;
     this.humGain = gain;
-    (this as { humOsc2?: OscillatorNode }).humOsc2 = osc2;
-    (this as { humGain2?: GainNode }).humGain2 = gain2;
+    this.humOsc2 = osc2;
+    this.humGain2 = gain2;
   }
 
   private stopHum(): void {
@@ -448,10 +444,8 @@ export class BakeStep extends BaseStep {
       this.humGain.disconnect();
       this.humGain = undefined;
     }
-    const humOsc2 = (this as { humOsc2?: OscillatorNode }).humOsc2;
-    const humGain2 = (this as { humGain2?: GainNode }).humGain2;
-    if (humOsc2) { humOsc2.stop(); (this as { humOsc2?: OscillatorNode }).humOsc2 = undefined; }
-    if (humGain2) { humGain2.disconnect(); (this as { humGain2?: GainNode }).humGain2 = undefined; }
+    if (this.humOsc2) { this.humOsc2.stop(); this.humOsc2 = undefined; }
+    if (this.humGain2) { this.humGain2.disconnect(); this.humGain2 = undefined; }
   }
 
   private onNext(): void {
@@ -459,7 +453,7 @@ export class BakeStep extends BaseStep {
     this.completed = true;
     this.speechLoop?.remove();
     this.bounceLoop?.remove();
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    stopSpeech();
     audioManager.playSfx('ding');
     this.scene.time.delayedCall(300, () => this.complete());
   }

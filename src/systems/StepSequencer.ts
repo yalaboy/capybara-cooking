@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { BaseStep } from '../steps/BaseStep';
 import { createStep } from '../steps/StepFactory';
 import { GameEvents } from '../types/events';
+import { speak } from '../utils/Speech';
 import type { StepConfig } from '../types/recipe';
 
 export class StepSequencer {
@@ -43,13 +44,8 @@ export class StepSequencer {
     const config = this.steps[this.currentIndex];
     this.scene.events.emit(GameEvents.STEP_START, this.currentIndex, this.steps.length);
 
-    if (config.speech && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(config.speech);
-      utterance.lang = 'en-US';
-      utterance.rate = 1.0;
-      utterance.pitch = 1.2;
-      window.speechSynthesis.speak(utterance);
+    if (config.speech) {
+      speak(config.speech, 1.0, 1.2);
     }
 
     this.currentStep = createStep({

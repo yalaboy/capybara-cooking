@@ -5,6 +5,7 @@ import { audioManager } from '../managers/AudioManager';
 import { FoodGraphics } from '../assets/visual/FoodGraphics';
 import type { EmotionType } from '../types/recipe';
 import { createNextButton } from '../ui/NextButton';
+import { speak } from '../utils/Speech';
 
 interface SauceInfo {
   id: string;
@@ -132,20 +133,12 @@ export class SauceStep extends BaseStep {
 
   private playSauceSound(): void {
     if (!this.selectedSauce) return;
-    if ('speechSynthesis' in window) {
-      const phrases = this.selectedSauce.speeches;
-      const text = phrases[Math.floor(Math.random() * phrases.length)];
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      if (this.selectedSauce.id === 'hotsauce') {
-        utterance.rate = 1.3;
-        utterance.pitch = 3.0;
-      } else {
-        utterance.rate = 1.0;
-        utterance.pitch = 1.3;
-      }
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(utterance);
+    const phrases = this.selectedSauce.speeches;
+    const text = phrases[Math.floor(Math.random() * phrases.length)];
+    if (this.selectedSauce.id === 'hotsauce') {
+      speak(text, 1.3, 3.0);
+    } else {
+      speak(text);
     }
   }
 
@@ -227,10 +220,8 @@ export class SauceStep extends BaseStep {
     });
   }
 
-  private selectSauce(info: SauceInfo, container: Phaser.GameObjects.Container, highlight: Phaser.GameObjects.Graphics, _index: number): void {
+  private resetAllBottles(): void {
     const { scene } = this;
-    audioManager.playSfx('button');
-
     this.bottles.forEach((b) => {
       b.highlight.clear();
       b.highlight.lineStyle(3, 0xffffff, 0);
@@ -242,6 +233,13 @@ export class SauceStep extends BaseStep {
         duration: 150,
       });
     });
+  }
+
+  private selectSauce(info: SauceInfo, container: Phaser.GameObjects.Container, highlight: Phaser.GameObjects.Graphics, _index: number): void {
+    const { scene } = this;
+    audioManager.playSfx('button');
+
+    this.resetAllBottles();
 
     this.selectedSauce = info;
     highlight.clear();
@@ -353,7 +351,4 @@ export class SauceStep extends BaseStep {
     scene.time.delayedCall(300, () => this.complete());
   }
 
-  exit(): void {
-    super.exit();
-  }
 }

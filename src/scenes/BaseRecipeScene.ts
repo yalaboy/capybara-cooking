@@ -285,6 +285,6 @@ export abstract class BaseRecipeScene extends Phaser.Scene {
     this.sequencer?.destroy();
     this.capybara?.destroy();
     this.progressBar?.destroy();
-    this.feedback = null as unknown as FeedbackSystem;
+    this.feedback = null!;
   }
 }

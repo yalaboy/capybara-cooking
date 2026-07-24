@@ -5,6 +5,7 @@ import { audioManager } from '../managers/AudioManager';
 import { FoodGraphics } from '../assets/visual/FoodGraphics';
 import { TOPPINGS, type ToppingInfo } from '../data/ToppingData';
 import { createNextButton } from '../ui/NextButton';
+import { speak } from '../utils/Speech';
 
 export class ToppingStep extends BaseStep {
   private anims!: AnimationSystem;
@@ -137,10 +138,8 @@ export class ToppingStep extends BaseStep {
     });
   }
 
-  private selectTopping(info: ToppingInfo, container: Phaser.GameObjects.Container, highlight: Phaser.GameObjects.Graphics): void {
+  private resetAllToppings(): void {
     const { scene } = this;
-    audioManager.playSfx('button');
-
     this.toppingItems.forEach((b) => {
       b.highlight.clear();
       b.highlight.lineStyle(3, 0xffffff, 0);
@@ -152,6 +151,13 @@ export class ToppingStep extends BaseStep {
         duration: 150,
       });
     });
+  }
+
+  private selectTopping(info: ToppingInfo, container: Phaser.GameObjects.Container, highlight: Phaser.GameObjects.Graphics): void {
+    const { scene } = this;
+    audioManager.playSfx('button');
+
+    this.resetAllToppings();
 
     this.selectedTopping = info;
     highlight.clear();
@@ -186,15 +192,8 @@ export class ToppingStep extends BaseStep {
       ease: 'Sine.easeInOut',
     });
 
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const text = info.liked ? `${info.label} yummy` : `${info.label} nono`;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 1.0;
-      utterance.pitch = 1.6;
-      window.speechSynthesis.speak(utterance);
-    }
+    const text = info.liked ? `${info.label} yummy` : `${info.label} nono`;
+    speak(text, 1.0, 1.6);
 
     scene.events.emit('capybara-emotion', 'idle');
     scene.time.delayedCall(100, () => {
@@ -222,15 +221,8 @@ export class ToppingStep extends BaseStep {
     this.toppingPositions.push({ x: tapX, y: tapY, id: info.id, scale: iconScale });
 
     audioManager.playSfx(info.liked ? 'ding' : 'splat');
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const text = info.liked ? `${info.label} yummy` : `${info.label} nono`;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 1.0;
-      utterance.pitch = 1.5;
-      window.speechSynthesis.speak(utterance);
-    }
+    const text = info.liked ? `${info.label} yummy` : `${info.label} nono`;
+    speak(text, 1.0, 1.5);
     scene.events.emit('capybara-emotion', 'idle');
     scene.time.delayedCall(100, () => {
       scene.events.emit('capybara-emotion', info.liked ? 'happy' : 'spicy');
@@ -261,7 +253,4 @@ export class ToppingStep extends BaseStep {
     scene.time.delayedCall(300, () => this.complete());
   }
 
-  exit(): void {
-    super.exit();
-  }
 }

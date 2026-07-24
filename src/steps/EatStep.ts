@@ -6,20 +6,11 @@ import { FoodGraphics } from '../assets/visual/FoodGraphics';
 import { TOPPING_MAP } from '../data/ToppingData';
 import { createNextButton } from '../ui/NextButton';
 import { Capybara } from '../objects/Capybara';
+import { speak } from '../utils/Speech';
 
 const BITE_RADIUS = 35;
 const BOARD_COLOR = 0xc19a6b;
 const DEATH_BITE = 11;
-
-function speak(text: string): void {
-  if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US';
-  u.rate = 1.0;
-  u.pitch = 1.3;
-  window.speechSynthesis.speak(u);
-}
 
 export class EatStep extends BaseStep {
   private anims!: AnimationSystem;
@@ -319,6 +310,17 @@ export class EatStep extends BaseStep {
     });
   }
 
+  private drawAngelRing(c: Phaser.GameObjects.Container): Phaser.GameObjects.Graphics {
+    const ring = this.scene.add.graphics();
+    ring.lineStyle(3, 0xffeb3b, 0.9);
+    ring.strokeEllipse(0, -45, 30, 12);
+    ring.fillStyle(0xffeb3b, 0.3);
+    ring.fillEllipse(0, -45, 30, 12);
+    ring.setDepth(30);
+    c.add(ring);
+    return ring;
+  }
+
   private drawDeathFace(c: Phaser.GameObjects.Container): void {
     const xEyeG = this.scene.add.graphics();
     xEyeG.lineStyle(3, 0x3e2723, 1);
@@ -343,13 +345,7 @@ export class EatStep extends BaseStep {
     this.deathObjs.push(rightX);
 
     // Angel ring
-    const ring = this.scene.add.graphics();
-    ring.lineStyle(3, 0xffeb3b, 0.9);
-    ring.strokeEllipse(0, -45, 30, 12);
-    ring.fillStyle(0xffeb3b, 0.3);
-    ring.fillEllipse(0, -45, 30, 12);
-    ring.setDepth(30);
-    c.add(ring);
+    const ring = this.drawAngelRing(c);
     this.deathObjs.push(ring);
 
     this.scene.tweens.add({
@@ -382,13 +378,7 @@ export class EatStep extends BaseStep {
       // Fly to heaven
       this.scene.tweens.killTweensOf(c);
 
-      const ring = this.scene.add.graphics();
-      ring.lineStyle(3, 0xffeb3b, 0.9);
-      ring.strokeEllipse(0, -45, 30, 12);
-      ring.fillStyle(0xffeb3b, 0.3);
-      ring.fillEllipse(0, -45, 30, 12);
-      ring.setDepth(30);
-      c.add(ring);
+      const ring = this.drawAngelRing(c);
 
       this.scene.tweens.add({
         targets: ring,
