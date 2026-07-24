@@ -309,6 +309,7 @@ export class SauceStep extends BaseStep {
     if (this.sauceTapCount >= 5 && this.nextButton) {
       this.nextButton.setVisible(true);
       this.anims.popIn(this.nextButton);
+      this.playNextSpeech();
     }
 
     const color = this.selectedSauce.color;

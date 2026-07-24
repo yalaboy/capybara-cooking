@@ -53,6 +53,16 @@ export abstract class BaseStep {
     return obj;
   }
 
+  protected playNextSpeech(): void {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance('It is ready, let\'s move on');
+    utterance.lang = 'en-US';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.2;
+    window.speechSynthesis.speak(utterance);
+  }
+
   protected createLabel(
     text: string,
     x: number,

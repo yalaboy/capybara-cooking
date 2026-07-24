@@ -66,16 +66,6 @@ export function createNextButton(scene: Phaser.Scene, step: BaseStep, onClick: (
     ease: 'Sine.easeInOut',
   });
 
-  // Speech
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance('It is ready, let\'s move on');
-    utterance.lang = 'en-US';
-    utterance.rate = 1.0;
-    utterance.pitch = 1.2;
-    window.speechSynthesis.speak(utterance);
-  }
-
   (step as unknown as { addObj: <T extends Phaser.GameObjects.GameObject>(obj: T) => T }).addObj(container);
   return container;
 }

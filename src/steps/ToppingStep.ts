@@ -191,6 +191,7 @@ export class ToppingStep extends BaseStep {
     if (this.toppingTapCount >= 5 && this.nextButton) {
       this.nextButton.setVisible(true);
       this.anims.popIn(this.nextButton);
+      this.playNextSpeech();
     }
 
     const iconC = info.drawIcon(scene, tapX, tapY);
