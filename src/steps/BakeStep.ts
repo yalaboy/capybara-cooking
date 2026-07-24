@@ -407,7 +407,6 @@ export class BakeStep extends BaseStep {
     if (this.nextButton) {
       this.nextButton.setVisible(true);
       this.anims.popIn(this.nextButton);
-      this.playNextSpeech();
     }
   }
 

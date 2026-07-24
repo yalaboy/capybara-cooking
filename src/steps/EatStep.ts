@@ -189,7 +189,6 @@ export class EatStep extends BaseStep {
       this.nextReady = true;
       this.nextButton.setVisible(true);
       this.anims.popIn(this.nextButton);
-      this.playNextSpeech();
     }
 
     // Draw bite mark (exact board color with matching highlight)
