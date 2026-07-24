@@ -201,7 +201,7 @@ export class SauceStep extends BaseStep {
       container.add(bottleG);
 
       const bottleLabel = info.id === 'ketchup' ? 'Ketchup' : info.id === 'mayo' ? 'Mayo' : 'Hot Sauce';
-      const label = scene.add.text(0, 32, bottleLabel, {
+      const label = scene.add.text(0, 52, bottleLabel, {
         fontSize: '36px',
         color: '#5d4037',
       });
