@@ -21,7 +21,7 @@ export function createNextButton(scene: Phaser.Scene, step: BaseStep, onClick: (
   container.add(bg);
 
   const nextLabel = scene.add.text(0, 58, 'NEXT', {
-    fontSize: '20px',
+    fontSize: '40px',
     color: '#4caf50',
     fontStyle: 'bold',
   });

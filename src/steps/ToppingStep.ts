@@ -112,7 +112,7 @@ export class ToppingStep extends BaseStep {
       container.add(iconG);
 
       const label = scene.add.text(0, 30, info.id.charAt(0).toUpperCase() + info.id.slice(1), {
-        fontSize: '14px',
+        fontSize: '28px',
         color: '#5d4037',
       });
       label.setOrigin(0.5);
