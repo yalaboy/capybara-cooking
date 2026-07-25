@@ -45,7 +45,7 @@ export class ToppingStep extends BaseStep {
     doughZone.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       if (!this.selectedTopping || this.completed) return;
       this.lastDragPos = { x: pointer.x, y: pointer.y };
-      this.applyTopping(pointer.x, pointer.y);
+      this.applyTopping(pointer.x, pointer.y, true);
     });
 
     doughZone.on('pointermove', (pointer: Phaser.Input.Pointer) => {
@@ -201,7 +201,7 @@ export class ToppingStep extends BaseStep {
     });
   }
 
-  private applyTopping(tapX: number, tapY: number): void {
+  private applyTopping(tapX: number, tapY: number, isDown = false): void {
     if (!this.selectedTopping) return;
     const { scene } = this;
     const info = this.selectedTopping;
@@ -221,8 +221,10 @@ export class ToppingStep extends BaseStep {
     this.toppingPositions.push({ x: tapX, y: tapY, id: info.id, scale: iconScale });
 
     audioManager.playSfx(info.liked ? 'ding' : 'splat');
-    const text = info.liked ? `${info.label} yummy` : `${info.label} nono`;
-    speak(text, 1.0, 1.5);
+    if (isDown) {
+      const text = info.liked ? `${info.label} yummy` : `${info.label} nono`;
+      speak(text, 1.0, 1.5);
+    }
     scene.events.emit('capybara-emotion', 'idle');
     scene.time.delayedCall(100, () => {
       scene.events.emit('capybara-emotion', info.liked ? 'happy' : 'spicy');
