@@ -141,15 +141,14 @@ export class ToppingStep extends BaseStep {
   private resetAllToppings(): void {
     const { scene } = this;
     this.toppingItems.forEach((b) => {
+      scene.tweens.killTweensOf(b.container);
+      scene.tweens.killTweensOf(b.highlight);
       b.highlight.clear();
       b.highlight.lineStyle(3, 0xffffff, 0);
       b.highlight.strokeRoundedRect(-24, -24, 48, 48, 8);
-      scene.tweens.add({
-        targets: b.container,
-        scaleX: 1,
-        scaleY: 1,
-        duration: 150,
-      });
+      b.highlight.setAlpha(1);
+      b.container.setScale(1);
+      b.container.setAngle(0);
     });
   }
 
